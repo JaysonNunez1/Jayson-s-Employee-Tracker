@@ -36,11 +36,62 @@ function startTracker(){
              'Exit'
             ]
         }
-             
 
+    ]).then((res) => {
+        switch (res.UserChoice) {
+            case 'View all Departments':
+                viewAllDepartments();
+                break;
+            case 'View all Roles':
+                viewAllRoles();
+                break;
 
+            case 'View all Employees':
+                viewAllEmployees();
+                break;
+                
+            case 'Add a Department':
+                 addDepartment();
+                break;
 
-             '
+            case 'Add a Role':
+                addRole();
+                 break;
 
-    ])
-}
+            case 'Add an Employee':
+                addEmployee();
+                break;
+
+            case 'Update an Employee Role':
+                updateEmployeeRole();
+                break;
+
+            case 'View Employees by Department':               
+                viewEmployeesByDepartment();
+                break;
+
+            case 'Delete an Employee':
+                deleteEmployee();
+                break;
+
+            case 'Delete a Role':
+                 deleteRole();
+                break;
+
+            case 'Delete a Department':
+                deleteDepartment();
+                break;
+
+            case 'Exit':
+                connection.end();
+                break;
+
+            default:
+                console.log('Error');
+                connection.end();
+                break;
+        }
+    }).catch((err) => {
+        if(err)throw err;
+    });
+};
