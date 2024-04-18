@@ -144,3 +144,29 @@ function addDepartment() {
         });
     });
 };
+
+function addRole() {
+    let query = 'SELECT * FROM department';
+    let queryShow=`SELECT
+    role.id,
+    role.title,
+    role.salary,
+    role.department_id,
+    department.name AS 'department_name'
+    FROM role
+    INNER JOIN department
+    ON role.department_id = department.id`;
+    connection.query(queryShow,(err,res) =>{
+        if(err)throw err;
+        console.table(res);
+    });
+    connection.query(querySelect,(err,res) =>{
+        if(err)throw err;
+        const department=res.map(({id,name})=>({
+            value:id,
+            name:`${id} ${name}`
+        }));
+        addRoleUser(department);
+    });
+ };
+    
