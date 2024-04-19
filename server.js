@@ -218,4 +218,62 @@ function addRole() {
         employeeRoles(role);
     });
  };
-    
+
+ function employeeRoles(role) {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first_name',
+            message:'Employee First Name:'
+        },
+        {
+            type: 'input',
+            name: 'last_name',
+            message:'Employee Last Name:'
+        },
+        {
+            type: 'list',
+            name: 'roleId',
+            message:'Employee Role:',
+            choices:role
+        }
+        ]).then((res) =>{
+            let query = `INSERT INTO employee SET ?`;
+            connection.query(query,{
+                first_name:res.first_name,
+                last_name:res.last_name,
+                role_id:res.roleId
+            },(err,res) =>{
+                if(err)throw err;
+               console.log('Employee Added');
+                startTracker();
+            });
+        });
+ };
+
+ function updateEmployeeRole() {
+    let query = `SELECT
+    employee.id,
+    employee.first_name,
+    employee.last_name,
+    role.title,
+    department.name,
+    role.salary,
+    CONCAT(manager.first_name,' ',manager.last_name) AS manager
+    From employee 
+    JOIN role
+    ON employee.role_id = role.id
+    JOIN department
+    ON role.department_id = role.department_id
+    JOIN employee manager
+    ON manager.id = employee.manager_id`;
+    connection.query(query,(err,res) =>{
+        if(err)throw err;
+        const employee = res.map(({ id, first_name, last_name}) =>({
+        value:id,
+        name: `${first_name} ${last_name}`
+        }));
+        console.table(res);
+        updateRole(employee);
+    });
+};
