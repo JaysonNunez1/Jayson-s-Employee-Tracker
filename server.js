@@ -169,4 +169,53 @@ function addRole() {
         addRoleUser(department);
     });
  };
+
+ function addRoleUser(department) {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message:'Title:'
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message:'Salary:'
+        },
+        {
+            type: 'list',
+            name: 'department',
+            message:'Department:',
+            choices:department
+        },
+    ]).then((res) => {
+        let query = 'INSERT INTO role SET ?'
+        connection.query(query,{
+            title:res.title,
+            salary:res.salary,
+            department_id:res.department
+        },(err,res) =>{
+            if(err)throw err;
+            console.log('Role added');
+            startTracker();
+        });
+    })
+ }
+
+ function addEmployee() {
+    let query = `SELECT
+        role.id,
+        role.title,
+        role.salary 
+        FROM role`;
+    connection.query(query,(err,res) =>{
+        if(err)throw err;
+        const role=res.map(({id,title})=>({
+            value:id,
+            name:`${id} ${title}`
+        }));
+        console.table(res);
+        employeeRoles(role);
+    });
+ };
     
