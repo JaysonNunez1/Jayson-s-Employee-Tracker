@@ -277,3 +277,17 @@ function addRole() {
         updateRole(employee);
     });
 };
+
+function updateRole(employee) {
+    let query = `SELECT role.id, role.title FROM role`;
+    connection.query(query,(err,res) =>{
+        if(err)throw err;
+        let roleChoices = res.map(({ id, title}) => ({
+            value:id,
+            name:`${id} ${title}`
+        }));
+        console.table(res);
+        getUpdatedRole(employee,roleChoices);
+    });
+};
+
