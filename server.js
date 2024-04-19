@@ -291,3 +291,27 @@ function updateRole(employee) {
     });
 };
 
+function getUpdatedRole(employee,roleChoices) {
+    inquirer.prompt([
+        {
+            type:'list',
+            name:'employee',
+            message:"employee who's role is being changed:",
+            choices:employee
+        },
+        {
+            type:'list',
+            name:'role',
+            message:"new role:",
+            choices:roleChoices
+        }
+    ]).then((res)=>{
+        let query = `UPDATE employee SET role_id = ? WHERE id = ?`;
+        connection.query(query,[res.role,res.employee],(err,res) =>{
+            if(err)throw err;
+            console.log("role updated");
+            startTracker();
+        });
+    });
+};
+
