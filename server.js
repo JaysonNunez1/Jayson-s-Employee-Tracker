@@ -315,3 +315,16 @@ function getUpdatedRole(employee,roleChoices) {
     });
 };
 
+function viewEmployeesByDepartment() {
+    let=query = `SELECT department.id, department.name FROM department`;
+    connection.query(query,(err,res) =>{
+        if(err)throw err;
+        const departmentChoices = res.map((data)=>({
+            value:data.id,
+            name:data.name
+            }));
+            console.table(res);
+            getDepartment(departmentChoices);
+    });
+};
+
