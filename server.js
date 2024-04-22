@@ -328,3 +328,32 @@ function viewEmployeesByDepartment() {
     });
 };
 
+function getDepartment(departmentChoices) {
+    inquirer.prompt([
+        {
+            type:'list',
+            name:'department',
+            message:"department:",
+            choices:departmentChoices
+        }
+    ]).then((res)=>{
+        let query = `SELECT
+        employee.id,
+        employee.first_name,
+        employee.last_name,
+        role.title,
+        department.name AS department,
+        role.salary,
+        CONCAT(manager,first_name,'',manager.last.name) As manger
+        FROM employee
+        LEFT JOIN role ON employee.role_id = role.id
+        LEFT JOIN department ON department_id = role.department_id
+        LEFT JOIN employee manager ON manager_id = employee.manager_id
+        WHERE department.id = ?`;
+        connection.query(query,res.department,(err,res) =>{
+            if(err)throw err;
+            console.table(res);
+            startTracker();
+        });
+    });
+};
