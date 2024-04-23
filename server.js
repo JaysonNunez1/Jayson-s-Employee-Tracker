@@ -435,5 +435,40 @@ function getEmployeeDelete(employee) {
             startTracker();
         });
     });
-};          
+};
 
+function removeRole() {
+    let query =
+    `SELECT 
+        role.id,
+        role.title
+        FROM role`
+            connection.query(query,(err,res)=>{
+             if (err) throw err;
+             const role = res.map(({id,title,salary})=> ({
+                            value:id,
+                            name:`${id} ${title} ${salary}`
+                        }));
+                        console.table(res);
+                        getRoleDelete(role);
+    });
+};
+
+function getRoleDelete(role) {
+    inquirer
+    .prompt([
+        {
+            type: 'list',
+            name: 'role',
+            message:'Role to be deleted',
+            choices: role
+        }
+        ]).then((res) => {
+            let query = `DELETE FROM role WHERE id = ?`
+             connection.query(query, res.role, (err, res) => {
+             if (err) throw err;
+             console.log("Role deleted");
+             startTracker();
+             });
+        });
+};
