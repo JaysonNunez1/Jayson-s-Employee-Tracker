@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const {exit} = require('process');
+const { type } = require('os');
 require('console.table');
 require('dotenv').config();
 
@@ -374,3 +375,27 @@ function viewBudgetByDepartment() {
             getBudget(deptbudgetChoices);
         });
     };
+
+function getBudgetDept(deptbudgetChoices){
+    inquirer
+      .prompt([
+          {
+              type: 'list',
+              name: 'department',
+              message: 'Which Department?: ',
+              choices: deptBudgetChoices
+          }
+      ]).then((res) => { 
+      let query = `SELECT 
+                      department.name AS department,
+                      sum(role.salary) AS utilized_budget
+                  FROM (role INNER JOIN department ON role.department_id = department.id) INNER JOIN employee ON role.id = employee.role_id
+                  WHERE department.id = ?
+                  GROUP BY department.name`  
+      connection.query(query, res.department,(err, res) => {
+      if (err) throw err;
+        console.table(res);
+        startTracker();
+      });
+  })
+};
