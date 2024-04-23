@@ -490,4 +490,21 @@ getDepartmentDelete(department);
  });
 };
 
-
+function getDepartmentDelete(department) {
+    inquirer
+    .prompt([
+        {
+            type: 'list',
+            name: 'department',
+            message:'Department to be deleted',
+            choices: department
+        }
+        ]).then((res) => {
+            let query = `DELETE FROM department WHERE id = ?`
+             connection.query(query, res.department, (err, res) => {
+             if (err) throw err;
+             console.log("Department deleted");
+             startTracker();
+         });
+     });
+};
