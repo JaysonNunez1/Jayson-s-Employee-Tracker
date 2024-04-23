@@ -472,3 +472,22 @@ function getRoleDelete(role) {
              });
         });
 };
+
+function removeDepartment() {
+    let query =
+    `SELECT
+    id,
+    name
+FROM department`
+connection.query(query,(err,res)=>{
+if (err) throw err;
+const department = res.map(({id,name})=> ({
+ value:id,
+  name:`${id} ${name}`
+ }));
+console.table(res);
+getDepartmentDelete(department);
+ });
+};
+
+
