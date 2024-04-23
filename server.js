@@ -397,5 +397,23 @@ function getBudgetDept(deptbudgetChoices){
         console.table(res);
         startTracker();
       });
-  })
+  });
 };
+
+function removeEmployee() {
+    let query =
+    `SELECT 
+        employee.id,
+        employee.first_name,
+        employee.last_name
+        FROM employee`
+        connection.query(query,(err,res)=>{
+                        if (err) throw err;
+                        const employee = res.map(({id,first_name,last_name})=>({
+                            value:id,
+                            name:`${id} ${first_name} ${last_name}`
+                            }));
+                            console.table(res);
+                            getEmployee(employee);
+                        });
+                    };
