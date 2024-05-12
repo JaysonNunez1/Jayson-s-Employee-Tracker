@@ -1,5 +1,13 @@
 {
   "dependencies": {
-    "inquirer": "^8.2.4"
+    "console.table": "^0.10.0",
+    "inquirer": "^8.2.4",
+    "mysql2": "^3.9.7"
+  },
+  "scripts": {
+    "seed": "node seed.js"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
   }
 }
