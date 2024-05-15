@@ -46,3 +46,5 @@ If you have any questions contact me at <br>
 [JaysonNunez1](https://github.com/JaysonNunez1/Jayson-s-Employee-Tracker)<br>
 jaysonnunez1@gmail.com
 
+## Walkthrough Video
+https://www.loom.com/share/d90e0c54b7fc4be4a81320c53ef84335?sid=2fe9c0c2-e0c9-4c7d-a926-c5621b240c60)
